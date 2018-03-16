@@ -18,7 +18,7 @@ This file is part of Vaani.
     along with Vaani.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-package com.metroinfrasys.hindiassistants;
+package com.infoskillstechnology.settingsapp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -417,7 +417,7 @@ public class MainActivity extends ActionBarActivity implements
                     //open facebook
                     Intent fbintent = new Intent();
                     fbintent.setAction(Intent.ACTION_VIEW);
-                    fbintent.setData(android.net.Uri.parse("http://www.facebook.com"));
+                    fbintent.setData(Uri.parse("http://www.facebook.com"));
                     startActivity(fbintent);
                     break;
                 case "whatsapp":
@@ -449,7 +449,7 @@ public class MainActivity extends ActionBarActivity implements
                     // open browser
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
-                    intent.setData(android.net.Uri.parse("http://www.google.com"));
+                    intent.setData(Uri.parse("http://www.google.com"));
                     startActivity(intent);
                     break;
                 case "youtube":
@@ -457,7 +457,7 @@ public class MainActivity extends ActionBarActivity implements
                     //run youtube
                     Intent ytintent = new Intent();
                     ytintent.setAction(Intent.ACTION_VIEW);
-                    ytintent.setData(android.net.Uri.parse("http://www.youtube.com"));
+                    ytintent.setData(Uri.parse("http://www.youtube.com"));
                     startActivity(ytintent);
                     break;
 
