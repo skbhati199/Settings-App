@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         boolean isAds = PreferenceManager.getDefaultSharedPreferences(this).getBoolean(SettingsActivity.REMOVE_ADS,false);
         TextView ads_value = findViewById(R.id.ads_value);
         ads_value.setText(isAds + "");
+
     }
 
     private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
