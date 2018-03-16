@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="sound_off_on"
+        android:title="@string/sound_on_off" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="remove_ads"
+        android:title="@string/remove_ads" />
+
+</PreferenceScreen>
