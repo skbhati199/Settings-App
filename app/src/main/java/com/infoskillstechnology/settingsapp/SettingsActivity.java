@@ -2,7 +2,6 @@ package com.infoskillstechnology.settingsapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -26,7 +25,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     public static final String SOUND_OFF_ON = "sound_off_on";
     public static final String REMOVE_ADS = "remove_ads";
     private SwitchPreference removeAdsPrefs;
-
     private ActivityCheckout mCheckout;
     private boolean mAdFree = true;
 
@@ -36,7 +34,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         setupActionBar();
         addPreferencesFromResource(R.xml.pref_notification);
         removeAdsPrefs = (SwitchPreference) findPreference(REMOVE_ADS);
-
         final Billing billing = SettingsApp.get(this).getBilling();
         mCheckout = Checkout.forActivity(this, billing);
         mCheckout.start();
@@ -72,6 +69,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         public void onSuccess(@Nonnull Purchase purchase) {
             hideAds();
         }
+
+        @Override
+        public void onError(int response, @Nonnull Exception e) {
+            removeAdsPrefs.setChecked(true);
+            Toast.makeText(SettingsActivity.this, "onError", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class InventoryCallback implements Inventory.Callback {
@@ -95,7 +98,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-        removeAdsPrefsHide(sharedPreferences, REMOVE_ADS, removeAdsPrefs);
+        if (!mAdFree)
+            removeAdsPrefsHide(sharedPreferences, REMOVE_ADS, removeAdsPrefs);
 
     }
 
@@ -118,29 +122,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         if (key.equals(SOUND_OFF_ON)) {
             SwitchPreference exercisesPref = (SwitchPreference) findPreference(key);
             exercisesPref.setChecked(sharedPreferences.getBoolean(key, false));
-            Toast.makeText(this, "sharedPreferences " + sharedPreferences.getBoolean(key, false), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "sharedPreferences " + sharedPreferences.getBoolean(key, false), Toast.LENGTH_SHORT).show();
         } else if (key.equals(REMOVE_ADS)) {
             SwitchPreference exercisesPref = (SwitchPreference) findPreference(key);
             exercisesPref.setChecked(sharedPreferences.getBoolean(key, false));
             buyAdFree();
-//            removeAdsPrefsHide(sharedPreferences, key, exercisesPref);
-            Toast.makeText(this, "sharedPreferences " + sharedPreferences.getBoolean(key, false), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "sharedPreferences " + sharedPreferences.getBoolean(key, false), Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
 
-    private void hideAds(){
+    private void hideAds() {
         mAdFree = true;
         PreferenceScreen screen = getPreferenceScreen();
         screen.removePreference(removeAdsPrefs);
     }
 
 
-    private void showAds(){
+    private void showAds() {
         mAdFree = true;
         PreferenceScreen screen = getPreferenceScreen();
         screen.addPreference(removeAdsPrefs);
+
     }
 }
